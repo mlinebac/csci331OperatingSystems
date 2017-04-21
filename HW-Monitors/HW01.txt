@@ -1,0 +1,16 @@
+Homework: Multithreading in Java using Monitors
+
+In this homework, you'll write a multi-threaded program in Java using NetBeans, modeled after the producer-consumer problem, using a Java "Monitor" class with synchronized class methods for accessing shared resources. To save time, I am providing for you a starter project which is a "Java-sensible" version of the Java producer consumer example code. It is available for download here (link).
+
+Use Java programming conventions.  For example, class names are capitalized, each class is in its own file, and the only static class is the one with the main method. Variable and method names are all lowercase with no underscores, where the first letter of all words after the first is capitalized.
+
+The producer will create random numbers and put them in the shared buffer, and the consumer will take them off the shared buffer and sum them up. Detailed requirements:
+
+The shared buffer will effectively be a FILO stack, implemented as an int array of length 100, along with an int for the index of the "topmost" filled slot in the buffer. Have the buffer grow "upward," with items filling indexes 0 through the topmost filled slot.  Use the static final constants defined for the number of items to produce / consume, and the buffer size.
+The producer will produce 10 million random int values onto the buffer, before exiting. Each int value should be between 0 and 10 inclusive, so the average value is 5. Use Math.random() and then modify the range with a math expression.
+Remember to move the topmost filled index, upon inserting a new value into the buffer.
+The consumer will take items from the buffer one at a time, and add them to a running sum. After it is done consuming all 10 million items from the buffer, print out the sum to the console.
+Remember to move the topmost filled index, upon removing a value from the buffer.
+Your monitor class will contain the shared buffer array, the index of the topmost item, and also keep track of how many times it blocks during insert, and how many times it blocks during remove. (The blocking occurs with the jacketed goToSleep invocation.)
+In main, after the producer and consumer are done, use the monitor to print out how many times insert blocked and how many times remove blocked.
+Make sure to test your code. When you are done, upload your NetBeans project .zip file to Moodle. Late work will not be accepted.

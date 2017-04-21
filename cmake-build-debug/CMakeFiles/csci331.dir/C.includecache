@@ -1,0 +1,22 @@
+#IncludeRegexLine: ^[ 	]*#[ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+/home/matt/csci331/lab2.c
+stdio.h
+-
+unistd.h
+-
+sys/types.h
+-
+time.h
+-
+wait.h
+-
+stdlib.h
+-
+
