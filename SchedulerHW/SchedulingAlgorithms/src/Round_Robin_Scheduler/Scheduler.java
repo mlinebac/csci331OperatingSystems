@@ -47,7 +47,7 @@ public class Scheduler {
     * going onto the other end of the deque
     */ 
     public int pickNextProcess(){
-        int pickedProc = this.scheduledProcs.pop();
+        int pickedProc = this.scheduledProcs.remove();
         this.scheduledProcs.add(pickedProc);
         return pickedProc;
     }
