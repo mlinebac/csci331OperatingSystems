@@ -59,7 +59,12 @@ public class MemoryManager {
      * Prints out this memory map, one memory section at a time. Iterates
      * through the MemorySection nodes and prints each one.
      */
-    // public void printMap()
+    public void printMap(){
+        for(int i=0; i<this.memorySize; i++){
+            String toString = this.list.toString();
+            System.out.println(toString);
+        }
+    }
     
     // -----getter methods-----
     /**
@@ -67,7 +72,9 @@ public class MemoryManager {
      *
      * @return The number of allocation units in this memory manager's "memory."
      */
-    // public int getMemorySize()
+    public int getMemorySize(){
+        return this.memorySize;
+    }
     
     /**
      * Determine where the address space of the given pid starts.
@@ -85,5 +92,7 @@ public class MemoryManager {
      * @return The number of allocation units in this process's address space.
      * Returns 0 if this pid has no address space.
      */
-    // public int getAddressSpaceSize(int pid)
+    public int getAddressSpaceSize(int pid){
+        
+    }
 }
