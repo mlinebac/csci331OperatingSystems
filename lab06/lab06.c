@@ -58,15 +58,13 @@ int deallocate(int pid) {
 //    memory has already been allocated to that pid.
 //    the memory cannot be allocated (no free section big enough)
 int allocate(int pid, int u) {
-   int i;
-   int startIndex=0;
-   int free_sect_size = 0;   	
-   if (u<=0 || pid<=0){
-	  return -1;
-   }
+	int i,j, startIndex=0, free_sect_size=0;
+		
+	if (u<=0 || pid<=0){
+		return -1;
+	}
 	for(i=0; i<NUM_ALLOC_UNITS; i++){
-		if(pid == map[i]){  
-			//printf("memory has already been allocated to that pid %d the memory cannot be allocated (no free section big enough", pid); 
+		if(pid == map[i]){   
 			return -1;
 		}
 	}
@@ -77,15 +75,17 @@ int allocate(int pid, int u) {
 		}else{//enter free section here
 			free_sect_size ++;
 			if(free_sect_size == 1){
-				for(startIndex = i; startIndex<u; startIndex++){
-				map[startIndex] = pid;
+				startIndex = i;
 				}
-			}
-			return -1;
+			if (free_sect_size == u){
+				for(j = startIndex; j<startIndex+u; j++){
+					map[j] = pid;
+				}
+				return startIndex;	
+			} 
 		}
-		
-	} 
-	return startIndex;	
+	}
+		return -1;
 }
 
 // Don't modify main, please!
