@@ -60,28 +60,33 @@ int deallocate(int pid) {
 int allocate(int pid, int u) {
    int i;
    int startIndex=0;
-   int local_size_u = 0;   	
+   int free_sect_size = 0;   	
    if (u<=0 || pid<=0){
 	  return -1;
    }
 	for(i=0; i<NUM_ALLOC_UNITS; i++){
 		if(pid == map[i]){  
 			//printf("memory has already been allocated to that pid %d the memory cannot be allocated (no free section big enough", pid); 
-			
 			return -1;
 		}
 	}
 	for(i=0; i<NUM_ALLOC_UNITS; i++){
-		if(map[i] != 0){
-			local_size_u = 0;
+		if(map[i] != 0){//not a free section
+			free_sect_size = 0;
 			
-		}else{
-			local_size_u ++;
-			if(local_size_u == 1){
-				startIndex = i;
+		}else{//enter free section here
+			free_sect_size ++;
+			if(free_sect_size == 1){
+				for(startIndex = i; startIndex<u; startIndex++){
+				map[startIndex] = pid;
+				}
 			}
-		} 
-	}
+			return -1;
+		}
+		
+	} 
+	return startIndex;	
+}
 
 // Don't modify main, please!
 int main() {

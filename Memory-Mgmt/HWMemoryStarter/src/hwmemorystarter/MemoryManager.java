@@ -93,6 +93,15 @@ public class MemoryManager {
      * Returns 0 if this pid has no address space.
      */
     public int getAddressSpaceSize(int pid){
-        
+        int localPid;
+        localPid = getMemorySize();
+        if (pid < 0){
+            System.out.println(pid + " PID must be greater than 0");
+            return 0;
+        }else{
+            MemorySection ms = new MemorySection(allocate(pid,getMemorySize()),getMemorySize(), pid);
+            
+            
+        }
     }
 }
