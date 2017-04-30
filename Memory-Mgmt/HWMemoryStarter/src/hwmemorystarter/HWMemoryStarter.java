@@ -1,7 +1,5 @@
 package hwmemorystarter;
 
-import java.util.LinkedList;
-
 public class HWMemoryStarter {
 
     public static void main(String[] args) {
@@ -11,7 +9,7 @@ public class HWMemoryStarter {
         manager.allocate(1,10);
         manager.printMap();
         //Deallocate a few address spaces, and print the memory map again.
-        manager.deallocate(1);
+        //manager.deallocate(1);
         manager.printMap();
         /*Allocate a few smaller address spaces, which will end up being
          *allocated in between larger, already allocated address spaces, then

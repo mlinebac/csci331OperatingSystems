@@ -43,7 +43,27 @@ public class MemoryManager {
      * memory has already been allocated to that pid, or the memory cannot be
      * allocated (i.e. no free section big enough)
      */
-    // public int allocate(int pid, int u)
+    public int allocate(int pid, int u){
+        if(u <= 0 || pid <= 0){
+            return -1;
+        }
+        for(int i = 0; i < list.size()-1; i++){
+           
+            if(pid == list.get(i).getOwnerPid()){
+                return -1;
+            }else{
+                if(u == list.get(i).getSize()){
+                    list.get(i).setOwnerPid(pid);
+                }
+                if(u <= list.get(i).getSize()){
+                    list.get(i).setStart(u);
+                    list.get(i).setSize(u);
+                    list.add(new MemorySection(0,u));
+                }
+            }
+        }
+        return -1;
+    }
     
     /**
      * Deallocate an address space.
@@ -60,9 +80,8 @@ public class MemoryManager {
      * through the MemorySection nodes and prints each one.
      */
     public void printMap(){
-        for(int i=0; i<this.memorySize; i++){
-            String toString = this.list.toString();
-            System.out.println(toString);
+        for(int i = 0; i < this.list.size(); i++){
+            System.out.println(this.list.get(i));
         }
     }
     
@@ -92,16 +111,6 @@ public class MemoryManager {
      * @return The number of allocation units in this process's address space.
      * Returns 0 if this pid has no address space.
      */
-    public int getAddressSpaceSize(int pid){
-        int localPid;
-        localPid = getMemorySize();
-        if (pid < 0){
-            System.out.println(pid + " PID must be greater than 0");
-            return 0;
-        }else{
-            MemorySection ms = new MemorySection(allocate(pid,getMemorySize()),getMemorySize(), pid);
-            
-            
-        }
-    }
+   // public int getAddressSpaceSize(int pid)
+        
 }
