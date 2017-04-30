@@ -6,7 +6,7 @@ public class MemoryManager {
 
     // -----data fields-----
     private final int memorySize; // number of allocation units in "memory"
-    private LinkedList<MemorySection> list; // The memory map, as a linked list.
+    private final LinkedList<MemorySection> list; // The memory map, as a linked list.
     // Each MemorySection node in the list is a free section or an address space.
 
     // -----constructors-----
@@ -78,15 +78,28 @@ public class MemoryManager {
      * @return The number of allocation units freed. If the pid is 0 or
      * negative, do nothing and return 0 units freed.
      */
-    // public int deallocate(int pid)
+    public int deallocate(int pid){
+        int unitsFreed;
+        unitsFreed = 0;
+        if(pid < 0){
+            return 0;
+        }
+        for(int i = 0; i < list.size()-1; i++){
+            if(list.get(i).getOwnerPid() == pid){
+                list.get(i).setOwnerPid(0);
+                unitsFreed += list.get(i).getSize();
+            }
+        }
+        return unitsFreed;
+    }
     
     /**
      * Prints out this memory map, one memory section at a time. Iterates
      * through the MemorySection nodes and prints each one.
      */
     public void printMap(){
-        for(int i = 0; i < this.list.size(); i++){
-            System.out.println(this.list.get(i));
+        for(int i = 0; i < getMemorySize(); i++){
+            System.out.println(list.get(i));
         }
     }
     
@@ -107,7 +120,19 @@ public class MemoryManager {
      * @return The allocation unit number where this process's address space
      * starts. Returns -1 if this pid has no address space.
      */
-    // public int getAddressSpaceStart(int pid)
+    public int getAddressSpaceStart(int pid){
+        if(pid < 0){
+            return -1;
+        }
+        for(int i = 0; i <= list.size() -1; i++){
+            if(list.get(i).getSize() == 0){
+                return -1;
+            }else{
+                return list.get(i).getStart();
+            }
+        }
+        return -1;
+    }
     
     /**
      * Get the size of a process's address space.
@@ -116,6 +141,19 @@ public class MemoryManager {
      * @return The number of allocation units in this process's address space.
      * Returns 0 if this pid has no address space.
      */
-   // public int getAddressSpaceSize(int pid)
-        
+   public int getAddressSpaceSize(int pid){
+       if(pid < 0){
+           return -1; 
+       }
+       for(int i = 0; i <= list.size()-1; i++){
+           if(list.get(i).getOwnerPid() == pid){
+            if(list.get(i).getSize() == 0){
+               return -1;
+           }else{
+                return list.get(i).getSize();
+            }
+       }
+   }
+        return -1;
+   }
 }
