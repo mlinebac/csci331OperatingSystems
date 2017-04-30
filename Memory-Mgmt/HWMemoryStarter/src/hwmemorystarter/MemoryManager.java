@@ -44,21 +44,26 @@ public class MemoryManager {
      * allocated (i.e. no free section big enough)
      */
     public int allocate(int pid, int u){
+        MemorySection newNode;
+        int freeSection;
         if(u <= 0 || pid <= 0){
             return -1;
         }
         for(int i = 0; i < list.size()-1; i++){
-           
             if(pid == list.get(i).getOwnerPid()){
                 return -1;
             }else{
                 if(u == list.get(i).getSize()){
                     list.get(i).setOwnerPid(pid);
                 }
-                if(u <= list.get(i).getSize()){
-                    list.get(i).setStart(u);
-                    list.get(i).setSize(u);
-                    list.add(new MemorySection(0,u));
+                if(u >= list.get(i).getSize()){
+                    freeSection = list.get(i).getSize();
+                    freeSection -= u;
+                    list.get(i).setSize(freeSection);
+                    freeSection += list.get(i).getStart();
+                    newNode = new MemorySection(freeSection,u,pid);
+                    list.add(newNode);
+                    return freeSection;
                 }
             }
         }
