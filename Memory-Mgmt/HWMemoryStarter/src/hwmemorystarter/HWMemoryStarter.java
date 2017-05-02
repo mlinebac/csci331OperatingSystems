@@ -6,19 +6,19 @@ public class HWMemoryStarter {
         //Create a memory manager object, allocate address spaces for several
         //processes, then print the memory map.
         MemoryManager manager = new MemoryManager(20);
-        manager.allocate(0,5);
+        manager.allocate(3,5);
         manager.allocate(1,4);
         manager.printMap();
         //Deallocate a few address spaces, and print the memory map again.
-        manager.deallocate(4);
+        manager.deallocate(1);
         manager.printMap();
         /*Allocate a few smaller address spaces, which will end up being
          *allocated in between larger, already allocated address spaces, then
          *print the memory map again.
          */
-        manager.allocate(6,2);
-        manager.allocate(2,3);
-        manager.printMap();
+       // manager.allocate(6,2);
+       // manager.allocate(2,3);
+        //manager.printMap();
         /*Please label each of your memory map printouts with a description of the
          current situation, so the reader of the console has context for the 
          status of the memory map at that point, e.g.

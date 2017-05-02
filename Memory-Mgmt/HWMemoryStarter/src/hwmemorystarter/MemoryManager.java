@@ -44,26 +44,32 @@ public class MemoryManager {
      * allocated (i.e. no free section big enough)
      */
     public int allocate(int pid, int u){
-        MemorySection newNode;
-        int freeSection;
+        MemorySection H;
+        MemorySection P;
+        int Hsize, Hstart;
+        int Psize, Pstart;
+      
         if(u <= 0 || pid <= 0){
             return -1;
         }
-        for(int i = 0; i < list.size()-1; i++){
+        for(int i = 0; i < list.size(); i++){
             if(pid == list.get(i).getOwnerPid()){
                 return -1;
             }else{
                 if(u == list.get(i).getSize()){
                     list.get(i).setOwnerPid(pid);
                 }
-                if(u >= list.get(i).getSize()){
-                    freeSection = list.get(i).getSize();
-                    freeSection -= u;
-                    list.get(i).setSize(freeSection);
-                    freeSection += list.get(i).getStart();
-                    newNode = new MemorySection(freeSection,u,pid);
-                    list.add(newNode);
-                    return freeSection;
+                if(u < list.get(i).getSize()){
+                    Psize = u;
+                    Pstart = getAddressSpaceStart(i);
+                    Hsize = getAddressSpaceSize(i)-u;
+                    Hstart= getAddressSpaceStart(i)+u;
+                    list.remove(i);
+                    P = new MemorySection(Pstart,Psize,pid);
+                    list.add(i, P);
+                    H = new MemorySection(Hstart,Hsize);
+                    list.add(i+1, H);
+                    return Pstart;
                 }
             }
         }
@@ -84,7 +90,7 @@ public class MemoryManager {
         if(pid < 0){
             return 0;
         }
-        for(int i = 0; i < list.size()-1; i++){
+        for(int i = 0; i < list.size(); i++){
             if(list.get(i).getOwnerPid() == pid){
                 list.get(i).setOwnerPid(0);
                 unitsFreed += list.get(i).getSize();
@@ -98,7 +104,7 @@ public class MemoryManager {
      * through the MemorySection nodes and prints each one.
      */
     public void printMap(){
-        for(int i = 0; i < getMemorySize(); i++){
+        for(int i = 0; i < list.size(); i++){
             System.out.println(list.get(i));
         }
     }
@@ -124,7 +130,7 @@ public class MemoryManager {
         if(pid < 0){
             return -1;
         }
-        for(int i = 0; i <= list.size() -1; i++){
+        for(int i = 0; i <= list.size(); i++){
             if(list.get(i).getSize() == 0){
                 return -1;
             }else{
@@ -145,7 +151,7 @@ public class MemoryManager {
        if(pid < 0){
            return -1; 
        }
-       for(int i = 0; i <= list.size()-1; i++){
+       for(int i = 0; i <= list.size(); i++){
            if(list.get(i).getOwnerPid() == pid){
             if(list.get(i).getSize() == 0){
                return -1;
